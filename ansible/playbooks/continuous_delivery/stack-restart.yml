@@ -1,0 +1,24 @@
+---
+# stop stack
+
+- hosts: go-agents
+  become: true
+  tasks:
+    - service: name=go-agent state=stopped
+
+#- hosts: go-servers
+#  become: true
+#  tasks:
+#    - service: name=go-server state=stopped
+
+# restart stack
+
+- hosts: go-servers
+  become: true
+  tasks:
+    - service: name=go-server state=restarted
+
+- hosts: go-agents
+  become: true
+  tasks:
+    - service: name=go-agent state=started

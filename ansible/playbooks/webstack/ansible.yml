@@ -1,0 +1,10 @@
+---
+- hosts: ansible
+  become: true
+  tasks:
+    - name: install tools
+      yum: name={{item}} state=present update_cache=yes
+      with_items:
+        - epel-release
+        - vim-enhanced
+        - curl

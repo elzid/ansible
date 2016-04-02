@@ -1,0 +1,11 @@
+---
+- hosts: all
+  become: true
+  tasks:
+    - name: install base software
+      yum: name={{item}} state=present update_cache=yes
+      with_items:
+        - epel-release
+        - vim-enhanced
+        - git
+    

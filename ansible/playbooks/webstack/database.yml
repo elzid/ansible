@@ -1,0 +1,32 @@
+---
+- hosts: databases
+  become: true
+  tasks:
+    - name: install python db tools
+      yum: name={{item}} state=present update_cache=yes
+      with_items:
+        - MySQL-python
+
+    - name: install mariadb-server
+      yum: name={{item}} state=present update_cache=yes
+      with_items:
+        - mariadb-server
+
+    - name: ensure mariadb started
+      service: name=mariadb state=started enabled=yes
+
+    # not required on centos
+    #- name: ensure listening on all interfaces
+    #  lineinfile: dest=/etc/my.cnf regexp=^bind-address
+    #              line="bind-address = 0.0.0.0"
+    #  notify: restart mariadb
+
+    - name: create demo schema
+      mysql_db: name=demo state=present
+
+    - name: create demo user
+      mysql_user: name=demo password=demo priv=demo.*:ALL host='%' state=present
+
+  handlers:
+    - name: restart mariadb
+      service: name=mariadb state=restarted

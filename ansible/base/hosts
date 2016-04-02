@@ -1,0 +1,13 @@
+127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+192.168.0.51	go-server go.cd
+192.168.0.52	git
+192.168.0.53	go-cd-agent-1
+192.168.0.54	go-cd-agent-2
+192.168.0.50	ansible
+
+# Mastering Ansible (Udemy) - Web stack
+192.168.0.55    db1
+192.168.0.56    lbl1
+192.168.0.57    web1
+192.168.0.58    web2

@@ -1,0 +1,12 @@
+---
+- hosts: all
+  become: true
+  tasks:
+    - name: install base tools
+      yum: name={{item}} state=present update_cache=yes
+      with_items:
+        - epel-release
+        - vim-enhanced
+
+    - name: copy hosts file
+      copy: src=../../base/hosts dest=/etc/hosts mode=0644

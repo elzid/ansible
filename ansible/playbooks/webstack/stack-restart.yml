@@ -1,0 +1,30 @@
+---
+- hosts: loadbalancers
+  become: true
+  name: Stop Loadbalancers
+  tasks:
+    - service: name=nginx state=stopped
+
+- hosts: webservers
+  become: true
+  name: Stop Webservers
+  tasks:
+    - service: name=httpd state=stopped
+
+- hosts: databases
+  become: true
+  name: Restart DBs
+  tasks:
+    - service: name=mariadb state=restarted
+
+- hosts: webservers
+  become: true
+  name: Start Webservers
+  tasks:
+    - service: name=httpd state=started
+
+- hosts: loadbalancers
+  become: true
+  name: Start Loadbalancers
+  tasks:
+    - service: name=nginx state=started
