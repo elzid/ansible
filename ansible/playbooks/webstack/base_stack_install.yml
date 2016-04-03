@@ -1,5 +1,5 @@
 ---
-- hosts: all
+- hosts: webstack
   become: true
   tasks:
     - name: install base tools
@@ -7,6 +7,7 @@
       with_items:
         - epel-release
         - vim-enhanced
+        - python-httplib2
 
     - name: copy hosts file
       copy: src=../../base/hosts dest=/etc/hosts mode=0644
