@@ -1,0 +1,29 @@
+---
+# tasks file for demo_app
+- name: install web components
+  yum: name={{item}} state=present update_cache=yes
+  with_items:
+    - python-pip
+    - python-virtualenv
+    - MySQL-python
+
+- name: copy app to docroot
+  copy: src=demo/app/ dest=/var/www/demo mode=0755
+  notify: restart apache
+
+- name: copy demo vhost config
+  copy: src=demo/demo.conf dest=/etc/httpd/conf.d mode=0755
+  notify: restart apache
+
+- name: setup python venv
+  pip: requirements=/var/www/demo/requirements.txt virtualenv=/var/www/demo/.venv
+  notify: restart apache
+
+- name: deactivate default site
+  file: path=/etc/httpd/conf.d/welcome.conf state=absent
+  notify: restart apache
+
+# not required on centos - everything in conf.d is enabled
+#- name: activate our site using symlink
+#  file: src=/etc/apache2/sites-available/demo.conf dest=/etc/apache2/sites-enabled/demo.conf state=link
+#  notify: restart apache

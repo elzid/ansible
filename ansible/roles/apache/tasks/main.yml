@@ -1,0 +1,14 @@
+---
+# tasks file for apache2
+- name: install web components
+  yum: name={{item}} state=present update_cache=yes
+  with_items:
+    - httpd
+    - mod_wsgi
+
+# on centos, yum install mod_wsgi enables the mod on httpd so no need (check via httpd -t -D DUMP_MODULES | grep wsgi)
+#- name: ensure mod_wsgi enabled
+#  apache2_module: name=wsgi state=present
+
+- name: ensure apache started
+  service: name=httpd state=started enabled=yes
