@@ -1,0 +1,7 @@
+---
+- include: base_stack_install.yml
+- include: ansible.yml
+- include: database.yml
+- include: webserver.yml
+- include: loadbalancer.yml
+- include: stack-status.yml
