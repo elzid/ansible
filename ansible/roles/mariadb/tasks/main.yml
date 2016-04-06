@@ -16,12 +16,18 @@
 #              line="bind-address = 0.0.0.0"
 #  notify: restart mariadb
 
+- name: ensure binding to correct interface
+  #lineinfile: dest=/etc/my.cnf line="bind-address = {{ ansible_enp0s9.ipv4.address }}"
+  #lineinfile: dest=/etc/my.cnf regexp="^bind-address " insertbefore="^\[mysqld_safe\]" line="bind-address = {{ ansible_enp0s9.ipv4.address }}" state=present
+  lineinfile: dest=/etc/my.cnf regexp="^bind-address " insertafter="^\[mysqld\]" line="bind-address = {{ ansible_enp0s8.ipv4.address }}" state=present
+  notify: restart mariadb
+
 # Always keep configuration changes before service commands in case of config errors
 - name: ensure mariadb started
   service: name=mariadb state=started enabled=yes
 
 - name: create demo schema
-  mysql_db: name=demo state=present
+  mysql_db: name={{ db_name }} state=present
 
 - name: create demo user
-  mysql_user: name=demo password=demo priv=demo.*:ALL host='%' state=present
+  mysql_user: name={{ db_user_name }} password={{ db_user_password }} priv={{ db_name }}.*:ALL host='{{ db_user_host }}' state=present
