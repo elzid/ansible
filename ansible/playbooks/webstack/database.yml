@@ -3,4 +3,4 @@
   become: true
   tasks:
   roles:
-    - mariadb
+    - { role: mariadb, db_name: demo, db_user_name: demo, db_user_password: demo, db_user_host: '%' }
