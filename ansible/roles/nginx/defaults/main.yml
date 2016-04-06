@@ -1,2 +1,9 @@
 ---
 # defaults file for nginx
+sites: # dict name
+  myapp1: # key name
+    frontend: 80 # key value
+    backend: 80
+  myapp2:
+    frontend: 8080
+    backend: 8080
